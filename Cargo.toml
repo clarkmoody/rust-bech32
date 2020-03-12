@@ -16,4 +16,4 @@ std = []
 strict = []
 
 [dependencies]
-void = "1"
+void = { default-features = false, version = "1" }
