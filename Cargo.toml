@@ -10,6 +10,8 @@ categories = ["encoding"]
 license = "MIT"
 
 [features]
+default = ["std"]
+std = []
 # Only for CI to make all warnings errors, do not activate otherwise (may break forward compatibility)
 strict = []
 

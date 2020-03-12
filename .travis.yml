@@ -6,7 +6,9 @@ rust:
 cache: cargo
 
 script:
+  - cargo build --verbose --no-default-features --features strict
   - cargo build --verbose --features strict
+  - cargo test --verbose --no-default-features --features strict
   - cargo test --verbose --features strict
 
 jobs:
