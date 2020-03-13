@@ -384,7 +384,8 @@ impl<'f, U: AsRef<[u8]>> CheckBase32<()> for U {
         self.as_ref()
             .iter()
             .map(|x| u5::try_from_u8(*x).map(|_| ()))
-            .collect::<Result<(), Error>>()
+            .find(|r| r.is_err())
+            .unwrap_or(Ok(()))
     }
 }
 
