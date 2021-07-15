@@ -11,8 +11,17 @@ license = "MIT"
 
 [features]
 default = ["std"]
-std = []
+arrayvec = ["arrayvec_dep"]
+alloc = []
+std = ["alloc"]
 # Only for CI to make all warnings errors, do not activate otherwise (may break forward compatibility)
 strict = []
 
 [dependencies]
+void = { default-features = false, version = "1" }
+
+[dependencies.arrayvec_dep]
+package = "arrayvec"
+version = "0.7.1"
+default-features = false
+optional = true

@@ -64,7 +64,7 @@ jobs:
           command: clippy
           args: -- -D warnings
 
-  Embedded:
+  Embedded-No-Alloc:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -83,4 +83,25 @@ jobs:
         env:
           RUSTFLAGS: "-C link-arg=-Tlink.x"
           CARGO_TARGET_THUMBV7M_NONE_EABI_RUNNER: "qemu-system-arm -cpu cortex-m3 -machine lm3s6965evb -nographic -semihosting-config enable=on,target=native -kernel"
-        run: cd embedded && cargo run --target thumbv7m-none-eabi
+        run: cd embedded-no-alloc && cargo run --target thumbv7m-none-eabi
+
+  Embedded-Alloc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        run: sudo apt install qemu-system-arm
+      - name: Checkout Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+          components: rust-src
+          target: thumbv7m-none-eabi
+      - name: Run
+        env:
+          RUSTFLAGS: "-C link-arg=-Tlink.x"
+          CARGO_TARGET_THUMBV7M_NONE_EABI_RUNNER: "qemu-system-arm -cpu cortex-m3 -machine lm3s6965evb -nographic -semihosting-config enable=on,target=native -kernel"
+        run: cd embedded-alloc && cargo run --target thumbv7m-none-eabi
