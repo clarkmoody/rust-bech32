@@ -10,7 +10,7 @@ fn do_test(data: &[u8]) {
         Err(_) => return,
     };
 
-    assert_eq!(bech32::encode(&b32.0, b32.1).unwrap(), data_str);
+    assert_eq!(bech32::encode(&b32.0, b32.1, b32.2).unwrap(), data_str);
 }
 
 #[cfg(feature = "afl")]
@@ -23,7 +23,8 @@ fn main() {
 }
 
 #[cfg(feature = "honggfuzz")]
-#[macro_use] extern crate honggfuzz;
+#[macro_use]
+extern crate honggfuzz;
 #[cfg(feature = "honggfuzz")]
 fn main() {
     loop {

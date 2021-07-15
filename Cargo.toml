@@ -1,6 +1,6 @@
 [package]
 name = "bech32"
-version = "0.7.2"
+version = "0.8.1"
 authors = ["Clark Moody"]
 repository = "https://github.com/rust-bitcoin/rust-bech32"
 description = "Encodes and decodes the Bech32 format"
@@ -11,9 +11,17 @@ license = "MIT"
 
 [features]
 default = ["std"]
-std = []
+arrayvec = ["arrayvec_dep"]
+alloc = []
+std = ["alloc"]
 # Only for CI to make all warnings errors, do not activate otherwise (may break forward compatibility)
 strict = []
 
 [dependencies]
 void = { default-features = false, version = "1" }
+
+[dependencies.arrayvec_dep]
+package = "arrayvec"
+version = "0.7.1"
+default-features = false
+optional = true

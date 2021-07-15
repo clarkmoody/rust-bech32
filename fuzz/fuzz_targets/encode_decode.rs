@@ -13,18 +13,26 @@ fn do_test(data: &[u8]) {
         return;
     }
 
-    let hrp = String::from_utf8_lossy(&data[1..hrp_end]).to_lowercase().to_string();
+    let hrp = String::from_utf8_lossy(&data[1..hrp_end])
+        .to_lowercase()
+        .to_string();
 
     let dp = data[hrp_end..]
         .iter()
         .map(|b| bech32::u5::try_from_u8(b % 32).unwrap())
         .collect::<Vec<_>>();
 
-    if let Ok(data_str) = bech32::encode(&hrp, &dp).map(|b32| b32.to_string()) {
+    let variant = if data[0] > 0x0f {
+        bech32::Variant::Bech32m
+    } else {
+        bech32::Variant::Bech32
+    };
+
+    if let Ok(data_str) = bech32::encode(&hrp, &dp, variant).map(|b32| b32.to_string()) {
         let decoded = bech32::decode(&data_str);
         let b32 = decoded.expect("should be able to decode own encoding");
 
-        assert_eq!(bech32::encode(&b32.0, &b32.1).unwrap(), data_str);
+        assert_eq!(bech32::encode(&b32.0, &b32.1, b32.2).unwrap(), data_str);
     }
 }
 
@@ -38,7 +46,8 @@ fn main() {
 }
 
 #[cfg(feature = "honggfuzz")]
-#[macro_use] extern crate honggfuzz;
+#[macro_use]
+extern crate honggfuzz;
 #[cfg(feature = "honggfuzz")]
 fn main() {
     loop {
