@@ -8,6 +8,7 @@ readme = "README.md"
 keywords = ["base32", "encoding", "bech32"]
 categories = ["encoding"]
 license = "MIT"
+edition = "2018"
 
 [features]
 default = ["std"]
@@ -16,3 +17,4 @@ std = []
 strict = []
 
 [dependencies]
+void = "1"
