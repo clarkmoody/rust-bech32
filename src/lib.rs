@@ -73,6 +73,9 @@ use std::borrow::Cow;
 
 use core::{fmt, mem};
 
+extern crate void;
+use void::Void;
+
 /// Integer in the range `0..32`
 #[derive(PartialEq, Eq, Debug, Copy, Clone, Default, PartialOrd, Ord, Hash)]
 #[allow(non_camel_case_types)]
@@ -229,7 +232,7 @@ pub trait FromBase32: Sized {
 }
 
 impl WriteBase32 for Vec<u5> {
-    type Err = ();
+    type Err = Void;
 
     fn write(&mut self, data: &[u5]) -> Result<(), Self::Err> {
         self.extend_from_slice(data);

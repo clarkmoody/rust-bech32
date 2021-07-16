@@ -16,3 +16,4 @@ std = []
 strict = []
 
 [dependencies]
+void = "1"
